@@ -58,7 +58,18 @@ public class Library {
         return false;
     }
 
-        
+    /**
+     * Returns a borrowed book to the library.
+     * @param isbn The ISBN of the book.
+     * @throws IllegalArgumentException if book was not borrowed.
+     */
+    public void returnBook(String isbn) {
+        if (!borrowedBooks.contains(isbn)) {
+            throw new IllegalArgumentException("Book was not borrowed: " + isbn);
+        }
+        borrowedBooks.remove(isbn);
+    }
+ 
         /**
          * Gets a list of available books.
          * @return List of available books.
