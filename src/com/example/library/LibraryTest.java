@@ -156,5 +156,25 @@ public class LibraryTest {
         // Verify that the exception message is correct
         assertEquals("Book was not borrowed: 109", exception.getMessage());
     }
+    @Test
+    public void testViewAvailableBooks() {
+        // Add multiple books, borrow one, and check the available books
+        Book book1 = new Book("110", "Pride and Prejudice", "Jane Austen", 1813);
+        Book book2 = new Book("111", "Moby-Dick", "Herman Melville", 1851);
+        Book book3 = new Book("112", "War and Peace", "Leo Tolstoy", 1869);
+
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
+        library.borrowBook("110"); // Borrow one book
+
+        List<Book> availableBooks = library.getAvailableBooks();
+
+        // Verify the count and presence of available books
+        assertEquals(2, availableBooks.size());
+        assertTrue(availableBooks.contains(book2));
+        assertTrue(availableBooks.contains(book3));
+        assertFalse(availableBooks.contains(book1)); // Verify borrowed book is not available
+    }
 
 }
