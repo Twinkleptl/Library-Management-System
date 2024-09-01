@@ -9,6 +9,7 @@ import java.util.List;
 public class Library {
     private List<Book> books = new ArrayList<>();
     private List<String> borrowedBooks = new ArrayList<>();
+
     /**
      * Adds a book to the library.
      * @param book The book to add.
@@ -28,6 +29,7 @@ public class Library {
         }
         books.add(book);
     }
+    
     /**
      * Borrows a book from the library.
      * @param isbn The ISBN of the book.
@@ -57,7 +59,7 @@ public class Library {
         }
         return false;
     }
-
+    
     /**
      * Returns a borrowed book to the library.
      * @param isbn The ISBN of the book.
@@ -69,15 +71,18 @@ public class Library {
         }
         borrowedBooks.remove(isbn);
     }
- 
-        /**
-         * Gets a list of available books.
-         * @return List of available books.
-         */
-        public List<Book> getAvailableBooks() {
-            List<Book> availableBooks = new ArrayList<>();
-            return availableBooks;
-        }
-
     
+    /**
+     * Gets a list of available books.
+     * @return List of available books.
+     */
+    public List<Book> getAvailableBooks() {
+        List<Book> availableBooks = new ArrayList<>();
+        for (Book book : books) {
+            if (!borrowedBooks.contains(book.getIsbn())) {
+                availableBooks.add(book);
+            }
+        }
+        return availableBooks;
+    }
 }

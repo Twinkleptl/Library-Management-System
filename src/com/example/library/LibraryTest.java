@@ -63,6 +63,7 @@ public class LibraryTest {
         // Verify that the exception message is correct
         assertEquals("Publication Year is invalid", exception.getMessage());
     }
+    
     @Test
     public void testBorrowBook() {
         // Add a book and ensure it is available
@@ -101,7 +102,7 @@ public class LibraryTest {
         // Verify that the exception message is correct
         assertEquals("Already Borrowed", exception.getMessage());
     }
-
+    
     @Test
     public void testReturnBook() {
         // Add, borrow, and then return a book
@@ -156,6 +157,7 @@ public class LibraryTest {
         // Verify that the exception message is correct
         assertEquals("Book was not borrowed: 109", exception.getMessage());
     }
+    
     @Test
     public void testViewAvailableBooks() {
         // Add multiple books, borrow one, and check the available books
@@ -176,5 +178,4 @@ public class LibraryTest {
         assertTrue(availableBooks.contains(book3));
         assertFalse(availableBooks.contains(book1)); // Verify borrowed book is not available
     }
-
 }
