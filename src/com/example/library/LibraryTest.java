@@ -102,5 +102,59 @@ public class LibraryTest {
         assertEquals("Already Borrowed", exception.getMessage());
     }
 
+    @Test
+    public void testReturnBook() {
+        // Add, borrow, and then return a book
+        Book book = new Book("106", "1984", "George Orwell", 1949);
+        library.addBook(book);
+        library.borrowBook("106");
+        library.returnBook("106");
+
+        // Verify that the book is available after returning
+        assertTrue(library.getAvailableBooks().stream().anyMatch(b -> b.getIsbn().equals("106")));
+    }
     
+    @Test
+    public void testReturnBookNotBorrowed() {
+        // Add a book and attempt to return it without borrowing
+        Book book = new Book("107", "To Kill a Mockingbird", "Harper Lee", 1960);
+        library.addBook(book);
+
+        // Attempt to return a book that was not borrowed
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            library.returnBook("107");
+        });
+        
+        // Verify that the exception message is correct
+        assertEquals("Book was not borrowed: 107", exception.getMessage());
+    }
+    
+    @Test
+    public void testReturnBookNotAvailable() {
+        // Attempt to return a book that was never added
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            library.returnBook("108");
+        });
+        
+        // Verify that the exception message is correct
+        assertEquals("Book was not borrowed: 108", exception.getMessage());
+    }
+    
+    @Test
+    public void testBookAlreadyReturned() {
+        // Add, borrow, and return a book, then attempt to return it again
+        Book book = new Book("109", "The Lord of the Rings", "J.R.R. Tolkien", 1954);
+        library.addBook(book);
+        library.borrowBook("109");
+        library.returnBook("109");
+
+        // Attempt to return the book again
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            library.returnBook("109");
+        });
+        
+        // Verify that the exception message is correct
+        assertEquals("Book was not borrowed: 109", exception.getMessage());
+    }
+
 }
