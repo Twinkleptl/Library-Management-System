@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Library {
     private List<Book> books = new ArrayList<>();
- 
+    private List<String> borrowedBooks = new ArrayList<>();
     /**
      * Adds a book to the library.
      * @param book The book to add.
@@ -28,6 +28,36 @@ public class Library {
         }
         books.add(book);
     }
+    /**
+     * Borrows a book from the library.
+     * @param isbn The ISBN of the book.
+     * @throws IllegalArgumentException if book is not available or already borrowed.
+     */
+    public void borrowBook(String isbn) {
+        if (!isBookAvailable(isbn)) {
+            if (borrowedBooks.contains(isbn)) {
+                throw new IllegalArgumentException("Already Borrowed");
+            } else {
+                throw new IllegalArgumentException("Book is not available in library: " + isbn);
+            }
+        }
+        borrowedBooks.add(isbn);
+    }
+
+    /**
+     * Checks if a book is available.
+     * @param isbn The ISBN of the book.
+     * @return true if available, false otherwise.
+     */
+    public boolean isBookAvailable(String isbn) {
+        for (Book book : books) {
+            if (book.getIsbn().equals(isbn) && !borrowedBooks.contains(isbn)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
         
         /**
          * Gets a list of available books.
