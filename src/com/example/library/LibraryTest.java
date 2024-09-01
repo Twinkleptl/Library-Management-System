@@ -63,6 +63,44 @@ public class LibraryTest {
         // Verify that the exception message is correct
         assertEquals("Publication Year is invalid", exception.getMessage());
     }
+    @Test
+    public void testBorrowBook() {
+        // Add a book and ensure it is available
+        Book book = new Book("103", "The Adventures Of Tom Sawyer", "Mark Twain", 2022);
+        library.addBook(book);
+        assertTrue(library.isBookAvailable("103"));
+
+        // Borrow the book and verify it is no longer available
+        library.borrowBook("103");
+        assertFalse(library.isBookAvailable("103"));
+    }
+    
+    @Test
+    public void testBookNotAvailable() {
+        // Attempt to borrow a book that does not exist in the library
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            library.borrowBook("106");
+        });
+        
+        // Verify that the exception message is correct
+        assertEquals("Book is not available in library: 106", exception.getMessage());
+    }
+    
+    @Test
+    public void testBookAlreadyBorrowed() {
+        // Add a book, borrow it, and attempt to borrow it again
+        Book book = new Book("105", "The Catcher in the Rye", "J.D. Salinger", 1951);
+        library.addBook(book);
+        library.borrowBook("105");
+
+        // Attempt to borrow the book again
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            library.borrowBook("105");
+        });
+        
+        // Verify that the exception message is correct
+        assertEquals("Already Borrowed", exception.getMessage());
+    }
 
     
 }
